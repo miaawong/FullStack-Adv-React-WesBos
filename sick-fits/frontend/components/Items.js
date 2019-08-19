@@ -55,3 +55,5 @@ export default class Items extends Component {
         );
     }
 }
+
+export { ALL_ITEMS_QUERY };
