@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import Router from "next/router";
 import Form from "./styles/Form";
 import formatMoney from "../lib/formatMoney";
 import Error from "./ErrorMessage";
@@ -20,7 +21,9 @@ const CREATE_ITEM_MUTATION = gql`
             price: $price
             image: $image
             largeImage: $largeImage
-        )
+        ) {
+            id
+        }
     }
 `;
 
@@ -47,9 +50,16 @@ class CreateItem extends Component {
                 {(createItem, { loading, error }) => (
                     <Form
                         onSubmit={async e => {
+                            //stop form from submitting
                             e.preventDefault();
+                            // call the mutation
                             const res = await createItem();
+                            // change them to the single item page
                             console.log(res);
+                            Router.push({
+                                pathname: "/item",
+                                query: { id: res.data.createItem.id }
+                            });
                         }}
                     >
                         <Error error={error} />
