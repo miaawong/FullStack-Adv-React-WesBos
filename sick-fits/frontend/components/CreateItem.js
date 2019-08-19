@@ -22,6 +22,7 @@ const CREATE_ITEM_MUTATION = gql`
             image: $image
             largeImage: $largeImage
         ) {
+            # return id
             id
         }
     }
@@ -31,8 +32,8 @@ class CreateItem extends Component {
     state = {
         title: "hii",
         description: "shoes",
-        image: "",
-        largeImage: "",
+        image: "dog.jpg",
+        largeImage: "bigdog.jpg",
         price: 1000
     };
     // ARROW func because it is an instance property
@@ -43,6 +44,27 @@ class CreateItem extends Component {
         const { name, type, value } = e.target;
         const val = type === "number" ? parseFloat(value) : value;
         this.setState({ [name]: val });
+    };
+    uploadFile = async e => {
+        console.log("uploading file...");
+        const files = e.target.files;
+        const data = new FormData();
+        data.append("file", files[0]);
+        data.append("upload_preset", "sick-fits");
+
+        const res = await fetch(
+            "https://api.cloudinary.com/v1_1/lilmia/image/upload",
+            {
+                method: "POST",
+                body: data
+            }
+        );
+        const file = await res.json();
+        console.log(file);
+        this.setState({
+            image: file.secure_url,
+            largeImage: file.eager[0].secure_url
+        });
     };
     render() {
         return (
@@ -64,6 +86,24 @@ class CreateItem extends Component {
                     >
                         <Error error={error} />
                         <fieldset disabled={loading} aria-busy={loading}>
+                            <label htmlFor="image">
+                                Image
+                                <input
+                                    type="file"
+                                    id="file"
+                                    name="file"
+                                    placeholder="image"
+                                    required
+                                    onChange={this.uploadFile}
+                                />
+                                {this.state.image && (
+                                    <img
+                                        src={this.state.image}
+                                        width="200"
+                                        alt="upload preview"
+                                    />
+                                )}
+                            </label>
                             <label htmlFor="title">
                                 Title
                                 <input
