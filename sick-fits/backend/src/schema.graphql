@@ -17,4 +17,5 @@ type Query {
     items: [Item]!
     #  an input that passes us an id, can be found in prisma.graphql file
     item(where: ItemWhereUniqueInput!): Item
+    itemsConnection(where: ItemWhereInput): ItemConnection!
 }
