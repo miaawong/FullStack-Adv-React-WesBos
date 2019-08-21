@@ -4,12 +4,13 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import Item from "./Item";
 import Pagination from "./Pagination";
+import { perPage } from "../config";
 
 // queries
 const ALL_ITEMS_QUERY = gql`
-    query ALL_ITEMS_QUERY {
+    query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
         # all fields we want to return
-        items {
+        items(first: $first, skip: $skip, orderBy: createdAt_DESC) {
             id
             title
             price
@@ -36,7 +37,14 @@ export default class Items extends Component {
         return (
             <Center>
                 <Pagination page={this.props.page} />
-                <Query query={ALL_ITEMS_QUERY}>
+                <Query
+                    // to update our pages, not a great way because we lose our cache
+                    // fetchPolicy="network-only"
+                    query={ALL_ITEMS_QUERY}
+                    variables={{
+                        skip: this.props.page * perPage - perPage
+                    }}
+                >
                     {/* the function  */}
                     {({ data, error, loading }) => {
                         if (loading) return <p>loading...</p>;

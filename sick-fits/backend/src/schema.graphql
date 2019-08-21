@@ -14,7 +14,13 @@ type Mutation {
 }
 
 type Query {
-    items: [Item]!
+    # add arguments, where: searching, orderby: most recent, first and skip: skip the first 4, but bring back 4 items in total
+    items(
+        where: ItemWhereInput
+        orderBy: ItemOrderByInput
+        skip: Int
+        first: Int
+    ): [Item]!
     #  an input that passes us an id, can be found in prisma.graphql file
     item(where: ItemWhereUniqueInput!): Item
     itemsConnection(where: ItemWhereInput): ItemConnection!
