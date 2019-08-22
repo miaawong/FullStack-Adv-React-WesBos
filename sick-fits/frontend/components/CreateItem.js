@@ -69,7 +69,7 @@ class CreateItem extends Component {
     render() {
         return (
             <Mutation
-                // refetchQueries= {ALL_QUERY}
+                // refetchQueries= {ALL_ITEMS_QUERY}
                 mutation={CREATE_ITEM_MUTATION}
                 variables={this.state}
             >
