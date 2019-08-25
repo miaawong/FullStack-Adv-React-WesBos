@@ -94,6 +94,11 @@ const mutations = {
         });
         // return the user
         return user;
+    },
+    signOut(parent, args, ctx, info) {
+        // in index.js we use cookieparser which gives us these methods like clearCookie
+        ctx.response.clearCookie("token");
+        return { message: "See ya" };
     }
 };
 

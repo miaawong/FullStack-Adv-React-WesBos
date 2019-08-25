@@ -1,5 +1,8 @@
 # import * from './generated/prisma.graphql'
 # ^^ importing files in graphql
+type SuccessMessage {
+    message: String
+}
 
 type Mutation {
     createItem(
@@ -13,6 +16,9 @@ type Mutation {
     deleteItem(id: ID!): Item
     signUp(email: String!, password: String!, name: String!): User!
     signIn(email: String!, password: String!): User!
+    # successmessage is not tied to prisma
+    # but we can return a custom type
+    signOut: SuccessMessage
 }
 
 type Query {
