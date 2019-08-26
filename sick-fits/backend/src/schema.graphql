@@ -19,6 +19,12 @@ type Mutation {
     # successmessage is not tied to prisma
     # but we can return a custom type
     signOut: SuccessMessage
+    requestReset(email: String!): SuccessMessage
+    resetPassword(
+        resetToken: String!
+        password: String!
+        confirmPassword: String!
+    ): User!
 }
 
 type Query {
@@ -34,4 +40,12 @@ type Query {
     itemsConnection(where: ItemWhereInput): ItemConnection!
     # for current user
     me: User
+}
+# we are redefing User becuz the password, resetToken, and tokenexpiry cannot
+# be not included because we don't want it to leak over on the frontend
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    permissions: [Permission!]!
 }
