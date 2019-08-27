@@ -117,7 +117,7 @@ const mutations = {
             where: { email: args.email },
             data: { resetToken, resetTokenExpiry }
         });
-        console.log(res);
+
         // 3. email them the reset token
         return { message: "reset token" };
     },
