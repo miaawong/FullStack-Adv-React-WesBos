@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-import gql, { resetCaches } from "graphql-tag";
+import gql from "graphql-tag";
 import Form from "./styles/Form";
 import Error from "./ErrorMessage";
 import PropTypes from "prop-types";
