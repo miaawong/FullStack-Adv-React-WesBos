@@ -40,6 +40,7 @@ type Query {
     itemsConnection(where: ItemWhereInput): ItemConnection!
     # for current user
     me: User
+    users: [User]!
 }
 # we are redefing User becuz the password, resetToken, and tokenexpiry cannot
 # be not included because we don't want it to leak over on the frontend
